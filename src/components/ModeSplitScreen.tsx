@@ -234,7 +234,7 @@ export function ModeSplitScreen({ initialMode, onModeChosen }: ModeSplitScreenPr
           }}
           className="pointer-events-auto relative"
           style={{
-            transform: `translateX(${(splitRatio - 0.5) * 100}vw) rotate(${-angleDeg-2}deg)`,
+            transform: `translateX(${(splitRatio - 0.5) * 100}vw) rotate(${-angleDeg-4}deg)`,
             transition: dragging ? 'none' : 'transform 200ms ease-out',
             cursor: dragging ? 'grabbing' as const : 'grab',
           }}
