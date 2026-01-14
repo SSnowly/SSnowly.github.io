@@ -2,6 +2,7 @@ import { profile } from '../data/profile'
 import { education, workExperience } from '../data/experience'
 import { useProjects } from '../hooks/useProjects'
 import { Github, ExternalLink } from 'lucide-react'
+import { SiJavascript, SiTypescript, SiNodedotjs, SiBun, SiGit, SiTailwindcss, SiReact, SiPhp } from 'react-icons/si'
 
 export function SeriousView() {
   const projects = useProjects()
@@ -75,17 +76,45 @@ export function SeriousView() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[var(--professional-border)]
- bg-[var(--professional-bg-secondary)]/70 p-4 text-xs text-[var(--professional-text-tertiary)]">
-          <p className="font-medium text-[var(--professional-text-secondary)]">About</p>
-          {profile.shortBio ? (
-            <p className="mt-2 leading-relaxed">{profile.shortBio}</p>
-          ) : (
-            <p className="mt-2 leading-relaxed text-[var(--professional-text-secondary)]0">
-              Add a short description about what you like to build and how you
-              work. Keep it focused and concrete.
-            </p>
-          )}
+        <div className="rounded-2xl border border-[var(--professional-border)] bg-[var(--professional-bg-secondary)]/70 p-4 text-xs text-[var(--professional-text-tertiary)] space-y-4">
+          <div>
+            <p className="font-medium text-[var(--professional-text-secondary)]">About</p>
+            {profile.shortBio ? (
+              <p className="mt-2 leading-relaxed">{profile.shortBio}</p>
+            ) : (
+              <p className="mt-2 leading-relaxed text-[var(--professional-text-secondary)]0">
+                Add a short description about what you like to build and how you
+                work. Keep it focused and concrete.
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <p className="text-[11px] font-medium text-[var(--professional-text-secondary)]">Tech stack</p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { key: 'js', label: 'JavaScript', Icon: SiJavascript },
+                { key: 'ts', label: 'TypeScript', Icon: SiTypescript },
+                { key: 'node', label: 'Node.js', Icon: SiNodedotjs },
+                { key: 'bun', label: 'Bun', Icon: SiBun },
+                { key: 'git', label: 'Git', Icon: SiGit },
+                { key: 'tailwind', label: 'Tailwind CSS', Icon: SiTailwindcss },
+                { key: 'react', label: 'React', Icon: SiReact },
+                { key: 'php', label: 'PHP', Icon: SiPhp },
+              ].map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  className="group relative flex h-7 w-7 items-center justify-center rounded-full border border-[var(--professional-border)] bg-[var(--professional-bg-secondary)]/80 hover:border-[var(--professional-accent)]"
+                  aria-label={item.label}
+                >
+                  <item.Icon className="h-4 w-4 pointer-events-none" />
+                  <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-[var(--professional-bg-tertiary)] px-2 py-0.5 text-[10px] text-[var(--professional-text-primary)] opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+                    {item.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

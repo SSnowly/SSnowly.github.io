@@ -389,138 +389,168 @@ export function PlayfulView() {
 
                 return (
                   <div className="relative mt-4 text-xs text-zinc-200/85">
-                    <div className="absolute left-1/2 top-0 hidden h-full -translate-x-1/2 border-l border-zinc-700/70 md:block" />
-                    <div className="space-y-6">
+                    {/* Mobile: simple stacked cards, similar to contact section */}
+                    <div className="space-y-3 md:hidden">
                       {sortedPeriods.map((period) => {
                         const items = groupedByPeriod[period]
-                        return (
-                          <div
-                            key={period}
-                            className="grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-start"
-                          >
-                            <div className="space-y-3 md:pr-4 md:text-right">
-                              {items
-                                .filter((_, idx) => idx % 2 === 0)
-                                .map((item) => (
-                                  <div key={item.id} className="space-y-1">
-                                    {item.type === 'work' ? (
-                                      <>
-                                        <div className="flex flex-wrap items-baseline justify-end gap-2">
-                                          <p className="text-[11px] font-semibold text-zinc-50">
-                                            {(item.data as typeof workExperience[0]).role}
-                                          </p>
-                                          <span className="text-[10px] text-zinc-400">
-                                            · {(item.data as typeof workExperience[0]).company}
-                                          </span>
-                                          <span className="text-[10px] text-zinc-500 md:hidden">
-                                            {period === 'present' ? 'Present' : period}
-                                          </span>
-                                        </div>
-                                        {(item.data as typeof workExperience[0]).location && (
-                                          <p className="text-[10px] text-zinc-400/90 text-right">
-                                            {(item.data as typeof workExperience[0]).location}
-                                          </p>
-                                        )}
-                                        {(item.data as typeof workExperience[0]).summary && (
-                                          <p className="text-[11px] leading-relaxed text-zinc-300/90 text-right">
-                                            {(item.data as typeof workExperience[0]).summary}
-                                          </p>
-                                        )}
-                                      </>
-                                    ) : (
-                                      <>
-                                        <div className="flex flex-wrap items-baseline justify-end gap-2">
-                                          <p className="text-[11px] font-semibold text-zinc-50">
-                                            {(item.data as typeof education[0]).school}
-                                          </p>
-                                          <span className="text-[10px] text-zinc-400">
-                                            · {(item.data as typeof education[0]).degree}
-                                          </span>
-                                          <span className="text-[10px] text-zinc-500 md:hidden">
-                                            {period === 'present' ? 'Present' : period}
-                                          </span>
-                                        </div>
-                                        {(item.data as typeof education[0]).location && (
-                                          <p className="text-[10px] text-zinc-400/90 text-right">
-                                            {(item.data as typeof education[0]).location}
-                                          </p>
-                                        )}
-                                        {(item.data as typeof education[0]).summary && (
-                                          <p className="text-[11px] leading-relaxed text-zinc-300/90 text-right">
-                                            {(item.data as typeof education[0]).summary}
-                                          </p>
-                                        )}
-                                      </>
-                                    )}
-                                  </div>
-                                ))}
+                        return items.map((item) => {
+                          const isWork = item.type === 'work'
+                          const base = item.data as typeof workExperience[0] & typeof education[0]
+                          return (
+                            <div
+                              key={item.id}
+                              className="rounded-2xl bg-black/40 p-4 text-[11px] text-zinc-200/85"
+                            >
+                              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                <p className="font-semibold text-zinc-50">
+                                  {isWork ? base.role : base.school}
+                                </p>
+                                <span className="text-[10px] text-zinc-500">
+                                  {period === 'present' ? 'Present' : period}
+                                </span>
+                              </div>
+                              <div className="mt-1 flex flex-wrap items-baseline gap-2 text-[10px] text-zinc-400">
+                                <span>
+                                  {isWork ? base.company : base.degree}
+                                </span>
+                                {base.location && (
+                                  <span className="text-zinc-500/90">· {base.location}</span>
+                                )}
+                              </div>
+                              {base.summary && (
+                                <p className="mt-2 text-[11px] leading-relaxed text-zinc-300/90">
+                                  {base.summary}
+                                </p>
+                              )}
                             </div>
-                            <div className="flex items-center justify-center md:flex-col md:items-center md:gap-1">
-                              <span className="hidden text-[10px] font-mono text-zinc-500/80 md:inline">
-                                {period === 'present' ? 'Present' : period}
-                              </span>
-                              <div className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.9)]" />
-                            </div>
-                            <div className="space-y-3">
-                              {items
-                                .filter((_, idx) => idx % 2 === 1)
-                                .map((item) => (
-                                  <div key={item.id} className="space-y-1">
-                                    {item.type === 'work' ? (
-                                      <>
-                                        <div className="flex flex-wrap items-baseline gap-2">
-                                          <p className="text-[11px] font-semibold text-zinc-50">
-                                            {(item.data as typeof workExperience[0]).role}
-                                          </p>
-                                          <span className="text-[10px] text-zinc-400">
-                                            · {(item.data as typeof workExperience[0]).company}
-                                          </span>
-                                          <span className="text-[10px] text-zinc-500 md:hidden">
-                                            {period === 'present' ? 'Present' : period}
-                                          </span>
-                                        </div>
-                                        {(item.data as typeof workExperience[0]).location && (
-                                          <p className="text-[10px] text-zinc-400/90">
-                                            {(item.data as typeof workExperience[0]).location}
-                                          </p>
-                                        )}
-                                        {(item.data as typeof workExperience[0]).summary && (
-                                          <p className="text-[11px] leading-relaxed text-zinc-300/90">
-                                            {(item.data as typeof workExperience[0]).summary}
-                                          </p>
-                                        )}
-                                      </>
-                                    ) : (
-                                      <>
-                                        <div className="flex flex-wrap items-baseline gap-2">
-                                          <p className="text-[11px] font-semibold text-zinc-50">
-                                            {(item.data as typeof education[0]).school}
-                                          </p>
-                                          <span className="text-[10px] text-zinc-400">
-                                            · {(item.data as typeof education[0]).degree}
-                                          </span>
-                                          <span className="text-[10px] text-zinc-500 md:hidden">
-                                            {period === 'present' ? 'Present' : period}
-                                          </span>
-                                        </div>
-                                        {(item.data as typeof education[0]).location && (
-                                          <p className="text-[10px] text-zinc-400/90">
-                                            {(item.data as typeof education[0]).location}
-                                          </p>
-                                        )}
-                                        {(item.data as typeof education[0]).summary && (
-                                          <p className="text-[11px] leading-relaxed text-zinc-300/90">
-                                            {(item.data as typeof education[0]).summary}
-                                          </p>
-                                        )}
-                                      </>
-                                    )}
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        )
+                          )
+                        })
                       })}
+                    </div>
+
+                    {/* Desktop: current alternating timeline layout */}
+                    <div className="hidden md:block">
+                      <div className="absolute left-1/2 top-0 h-full -translate-x-1/2 border-l border-zinc-700/70" />
+                      <div className="space-y-6">
+                        {sortedPeriods.map((period) => {
+                          const items = groupedByPeriod[period]
+                          return (
+                            <div
+                              key={period}
+                              className="grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-start"
+                            >
+                              <div className="space-y-3 md:pr-4 md:text-right">
+                                {items
+                                  .filter((_, idx) => idx % 2 === 0)
+                                  .map((item) => (
+                                    <div key={item.id} className="space-y-1">
+                                      {item.type === 'work' ? (
+                                        <>
+                                          <div className="flex flex-wrap items-baseline justify-end gap-2">
+                                            <p className="text-[11px] font-semibold text-zinc-50">
+                                              {(item.data as typeof workExperience[0]).role}
+                                            </p>
+                                            <span className="text-[10px] text-zinc-400">
+                                              · {(item.data as typeof workExperience[0]).company}
+                                            </span>
+                                          </div>
+                                          {(item.data as typeof workExperience[0]).location && (
+                                            <p className="text-[10px] text-zinc-400/90 text-right">
+                                              {(item.data as typeof workExperience[0]).location}
+                                            </p>
+                                          )}
+                                          {(item.data as typeof workExperience[0]).summary && (
+                                            <p className="text-[11px] leading-relaxed text-zinc-300/90 text-right">
+                                              {(item.data as typeof workExperience[0]).summary}
+                                            </p>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <>
+                                          <div className="flex flex-wrap items-baseline justify-end gap-2">
+                                            <p className="text-[11px] font-semibold text-zinc-50">
+                                              {(item.data as typeof education[0]).school}
+                                            </p>
+                                            <span className="text-[10px] text-zinc-400">
+                                              · {(item.data as typeof education[0]).degree}
+                                            </span>
+                                          </div>
+                                          {(item.data as typeof education[0]).location && (
+                                            <p className="text-[10px] text-zinc-400/90 text-right">
+                                              {(item.data as typeof education[0]).location}
+                                            </p>
+                                          )}
+                                          {(item.data as typeof education[0]).summary && (
+                                            <p className="text-[11px] leading-relaxed text-zinc-300/90 text-right">
+                                              {(item.data as typeof education[0]).summary}
+                                            </p>
+                                          )}
+                                        </>
+                                      )}
+                                    </div>
+                                  ))}
+                              </div>
+                              <div className="flex items-center justify-center md:flex-col md:items-center md:gap-1">
+                                <span className="text-[10px] font-mono text-zinc-500/80">
+                                  {period === 'present' ? 'Present' : period}
+                                </span>
+                                <div className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.9)]" />
+                              </div>
+                              <div className="space-y-3">
+                                {items
+                                  .filter((_, idx) => idx % 2 === 1)
+                                  .map((item) => (
+                                    <div key={item.id} className="space-y-1">
+                                      {item.type === 'work' ? (
+                                        <>
+                                          <div className="flex flex-wrap items-baseline gap-2">
+                                            <p className="text-[11px] font-semibold text-zinc-50">
+                                              {(item.data as typeof workExperience[0]).role}
+                                            </p>
+                                            <span className="text-[10px] text-zinc-400">
+                                              · {(item.data as typeof workExperience[0]).company}
+                                            </span>
+                                          </div>
+                                          {(item.data as typeof workExperience[0]).location && (
+                                            <p className="text-[10px] text-zinc-400/90">
+                                              {(item.data as typeof workExperience[0]).location}
+                                            </p>
+                                          )}
+                                          {(item.data as typeof workExperience[0]).summary && (
+                                            <p className="text-[11px] leading-relaxed text-zinc-300/90">
+                                              {(item.data as typeof workExperience[0]).summary}
+                                            </p>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <>
+                                          <div className="flex flex-wrap items-baseline gap-2">
+                                            <p className="text-[11px] font-semibold text-zinc-50">
+                                              {(item.data as typeof education[0]).school}
+                                            </p>
+                                            <span className="text-[10px] text-zinc-400">
+                                              · {(item.data as typeof education[0]).degree}
+                                            </span>
+                                          </div>
+                                          {(item.data as typeof education[0]).location && (
+                                            <p className="text-[10px] text-zinc-400/90">
+                                              {(item.data as typeof education[0]).location}
+                                            </p>
+                                          )}
+                                          {(item.data as typeof education[0]).summary && (
+                                            <p className="text-[11px] leading-relaxed text-zinc-300/90">
+                                              {(item.data as typeof education[0]).summary}
+                                            </p>
+                                          )}
+                                        </>
+                                      )}
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
                   </div>
                 )
