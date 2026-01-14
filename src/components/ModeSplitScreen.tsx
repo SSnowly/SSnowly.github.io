@@ -12,6 +12,7 @@ export function ModeSplitScreen({ initialMode, onModeChosen }: ModeSplitScreenPr
   const [splitRatio, setSplitRatio] = useState(0.5)
   const [dragging, setDragging] = useState(false)
   const [exiting, setExiting] = useState(false)
+  const [diagonalAngle, setDiagonalAngle] = useState(0)
   const dragOffsetRef = useRef(0)
   const lastXRef = useRef<number | null>(null)
   const lastTimeRef = useRef<number | null>(null)
@@ -24,6 +25,21 @@ export function ModeSplitScreen({ initialMode, onModeChosen }: ModeSplitScreenPr
       setSplitRatio(0.45)
     }
   }, [initialMode])
+
+  useEffect(() => {
+    const updateAngle = () => {
+      const bandWidth = 18
+      const aspectRatio = window.innerWidth / window.innerHeight
+      const horizontalChange = (2 * bandWidth / 100) * aspectRatio
+      const angleRad = Math.atan(horizontalChange)
+      const angleDeg = (angleRad * 180) / Math.PI
+      setDiagonalAngle(angleDeg)
+    }
+
+    updateAngle()
+    window.addEventListener('resize', updateAngle)
+    return () => window.removeEventListener('resize', updateAngle)
+  }, [])
 
   useEffect(() => {
     if (!dragging) return
@@ -234,18 +250,24 @@ export function ModeSplitScreen({ initialMode, onModeChosen }: ModeSplitScreenPr
           }}
           className="pointer-events-auto relative"
           style={{
-            transform: `translateX(${(splitRatio - 0.5) * 100}vw) rotate(${-angleDeg-5}deg)`,
+            transform: `translateX(${(splitRatio - 0.5) * 100}vw)`,
             transition: dragging ? 'none' : 'transform 200ms ease-out',
             cursor: dragging ? 'grabbing' as const : 'grab',
           }}
         >
           <div
-            className="rounded-full bg-[var(--professional-text-secondary)]/90 shadow-[0_0_40px_rgba(201,209,217,0.7)]"
             style={{
-              width: `${barWidth}px`,
-              height: '150vh',
+              transform: `rotate(${-diagonalAngle}deg)`,
             }}
-          />
+          >
+            <div
+              className="rounded-full bg-[var(--professional-text-secondary)]/90 shadow-[0_0_40px_rgba(201,209,217,0.7)]"
+              style={{
+                width: `${barWidth}px`,
+                height: '150vh',
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
