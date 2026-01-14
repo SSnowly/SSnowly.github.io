@@ -132,7 +132,6 @@ export function ModeSplitScreen({ initialMode, onModeChosen }: ModeSplitScreenPr
     }
   }, [dragging, onModeChosen, splitRatio])
 
-  const angleDeg = 24
   const barWidth = 4
   const bandWidth = 18 // how wide the diagonal band is, in vw-ish %
 
